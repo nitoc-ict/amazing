@@ -25,7 +25,7 @@ double before_data = 0;
 
 void loop() {
   double data;
-  int threshold = 200;
+  int threshold = 800;  //しきい値
 
   mma.read();
   data = mma.z;
@@ -37,12 +37,12 @@ void loop() {
   mma.getEvent(&event);
 
   if ((before_data - data) > threshold) {
-    Flashing(strip.Color(0, 0, 255), 500);
+    Flashing(strip.Color(0, 0, 255));
     //rand_Flashing(strip.Color(0, 0, 255));
     //Serial.println("P1");  //検証用
   }
   else if ((data - before_data) > threshold) {
-    Flashing(strip.Color(0, 0, 255), 500);
+    Flashing(strip.Color(0, 0, 255));
     //rand_Flashing(strip.Color(0, 0, 255));
     //Serial.println("P2");  //検証用
   }
@@ -55,9 +55,16 @@ void loop() {
 
 }
 
-void Flashing(uint32_t c, int interval) {
+int interval = 500; //点滅間隔の設定
+void Flashing(uint32_t c) { //(色データ)
   for (uint16_t i = 0; i < strip.numPixels() / 2; i++) {
     strip.setPixelColor(i * 2, c);
+    strip.show();
+  }
+  delay(interval);
+  all_down();
+  for (uint16_t i = 0; i < strip.numPixels() / 2; i++) {
+    strip.setPixelColor(i * 2 + 1, c);
     strip.show();
   }
   delay(interval);
