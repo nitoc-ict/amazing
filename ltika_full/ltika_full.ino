@@ -1,8 +1,8 @@
 #include <Adafruit_NeoPixel.h>
 
-#define PIN 6　//制御用のPIN番号定義
+#define PIN 6 //制御用のPIN番号定義
 
-Adafruit_NeoPixel strip = Adafruit_NeoPixel(61, PIN, NEO_GRB + NEO_KHZ800); //(NeoPixelの数、制御PIN、)
+Adafruit_NeoPixel strip = Adafruit_NeoPixel(50, PIN, NEO_GRB + NEO_KHZ800); //(NeoPixelの数、制御PIN)
 
 void setup() {
   strip.begin();
@@ -12,9 +12,9 @@ void setup() {
 
 void loop() {
   //colorWipe(strip.Color(255, 0, 0), 500); // Red
-  colorWipe(strip.Color(0, 300, 0), 500); // Green
+  //colorWipe(strip.Color(0, 300, 0), 500); // Green
   //colorWipe(strip.Color(0, 0, 255), 500); // Blue
-  //rainbowCycle(20);
+  rainbowCycle(20);
   //rainbow(20);
   //tenmetu(strip.Color(0,0,255),500);  
 }

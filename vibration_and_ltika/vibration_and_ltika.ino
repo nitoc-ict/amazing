@@ -5,7 +5,7 @@
 
 
 #define PIN 6
-Adafruit_NeoPixel strip = Adafruit_NeoPixel(61, PIN, NEO_GRB + NEO_KHZ800);
+Adafruit_NeoPixel strip = Adafruit_NeoPixel(50, PIN, NEO_GRB + NEO_KHZ800);
 Adafruit_MMA8451 mma = Adafruit_MMA8451();
 
 void setup(void) {
@@ -47,10 +47,12 @@ void loop() {
   
   if ((before_data - data) > threshold) {
     tenmetu(strip.Color(0, 0, 255), 500);
+    //rand_tenmetu(strip.Color(0, 0, 255));
     Serial.println("1");
   }
   else if((data - before_data) > threshold){
     tenmetu(strip.Color(0, 0, 255), 500);
+    //rand_tenmetu(strip.Color(0, 0, 255));
     Serial.println("2");
   }
   else{
@@ -84,3 +86,17 @@ void all_down() {
       strip.show();
   }
 }
+
+void rand_tenmetu(uint32_t c){
+  randomSeed(analogRead(0));
+  int ran_num = random(5, 10);
+  for(uint16_t i = 0; i < strip.numPixels() / 2; i += ran_num){
+    randomSeed(analogRead(0));
+    ran_num = random(5, 10);
+    strip.setPixelColor(i,c);
+    strip.show();
+  }
+  delay(500);
+  all_down();
+}
+
