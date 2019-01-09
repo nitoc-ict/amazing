@@ -37,12 +37,12 @@ void loop() {
   mma.getEvent(&event);
 
   if ((before_data - data) > threshold) {
-    Flashing(strip.Color(0, 0, 255));
+    Flashing(strip.Color(0, 0, 255), 500);
     //rand_Flashing(strip.Color(0, 0, 255));
     //Serial.println("P1");  //検証用
   }
   else if ((data - before_data) > threshold) {
-    Flashing(strip.Color(0, 0, 255));
+    Flashing(strip.Color(0, 0, 255), 500);
     //rand_Flashing(strip.Color(0, 0, 255));
     //Serial.println("P2");  //検証用
   }
@@ -55,18 +55,12 @@ void loop() {
 
 }
 
-void Flashing(uint32_t c) {
+void Flashing(uint32_t c, int interval) {
   for (uint16_t i = 0; i < strip.numPixels() / 2; i++) {
     strip.setPixelColor(i * 2, c);
     strip.show();
   }
-  delay(1000);
-  all_down();
-  for (uint16_t i = 0; i < strip.numPixels() / 2; i++) {
-    strip.setPixelColor(i * 2 + 1, c);
-    strip.show();
-  }
-  delay(1000);
+  delay(interval);
   all_down();
 }
 
