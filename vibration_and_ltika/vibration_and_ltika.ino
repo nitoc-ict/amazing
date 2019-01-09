@@ -9,21 +9,16 @@ Adafruit_NeoPixel strip = Adafruit_NeoPixel(50, PIN, NEO_GRB + NEO_KHZ800);
 Adafruit_MMA8451 mma = Adafruit_MMA8451();
 
 void setup(void) {
-  Serial.begin(9600);
+  //Serial.begin(9600);
   strip.begin();
   strip.setBrightness(50);
   strip.show();
 
-  if (! mma.begin()) {
-    Serial.println("Couldnt start");
+  if (! mma.begin()) {  //Search senser
     while (1);
   }
-  Serial.println("MMA8451 found!");
 
   mma.setRange(MMA8451_RANGE_2_G);
-
-  Serial.print("Range = "); Serial.print(2 << mma.getRange());
-  Serial.println("G");
 
 }
 double before_data = 0;
@@ -34,38 +29,33 @@ void loop() {
 
   mma.read();
   data = mma.z;
-  Serial.print("\tZ:\t"); Serial.print(mma.z);
-  Serial.println();
+  //Serial.print("\tZ:\t"); Serial.print(mma.z);  //検証用
+  //Serial.println();
 
   sensors_event_t event;
 
   mma.getEvent(&event);
-  //data = event.acceleration.z;
-  //Serial.print("Z: \t");
-  //Serial.print(event.acceleration.z); Serial.print("\t");
-  //Serial.println("m/s^2 ");
 
   if ((before_data - data) > threshold) {
-    Flashing(strip.Color(0, 0, 255), 500);
+    Flashing(strip.Color(0, 0, 255));
     //rand_Flashing(strip.Color(0, 0, 255));
-    Serial.println("1");
+    //Serial.println("P1");  //検証用
   }
   else if ((data - before_data) > threshold) {
-    Flashing(strip.Color(0, 0, 255), 500);
+    Flashing(strip.Color(0, 0, 255));
     //rand_Flashing(strip.Color(0, 0, 255));
-    Serial.println("2");
+    //Serial.println("P2");  //検証用
   }
   else {
     all_down();
   }
 
   before_data = data;
-  Serial.println();
   delay(100);
 
 }
 
-void Flashing(uint32_t c, uint8_t wait) {
+void Flashing(uint32_t c) {
   for (uint16_t i = 0; i < strip.numPixels() / 2; i++) {
     strip.setPixelColor(i * 2, c);
     strip.show();
