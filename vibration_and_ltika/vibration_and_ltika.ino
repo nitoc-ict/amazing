@@ -31,7 +31,7 @@ double before_data = 0;
 void loop() {
   double data;
   int threshold = 200;
-  
+
   mma.read();
   data = mma.z;
   Serial.print("\tZ:\t"); Serial.print(mma.z);
@@ -41,21 +41,21 @@ void loop() {
 
   mma.getEvent(&event);
   //data = event.acceleration.z;
-  //Serial.print("Z: \t"); 
+  //Serial.print("Z: \t");
   //Serial.print(event.acceleration.z); Serial.print("\t");
   //Serial.println("m/s^2 ");
-  
+
   if ((before_data - data) > threshold) {
-    tenmetu(strip.Color(0, 0, 255), 500);
-    //rand_tenmetu(strip.Color(0, 0, 255));
+    Flashing(strip.Color(0, 0, 255), 500);
+    //rand_Flashing(strip.Color(0, 0, 255));
     Serial.println("1");
   }
-  else if((data - before_data) > threshold){
-    tenmetu(strip.Color(0, 0, 255), 500);
-    //rand_tenmetu(strip.Color(0, 0, 255));
+  else if ((data - before_data) > threshold) {
+    Flashing(strip.Color(0, 0, 255), 500);
+    //rand_Flashing(strip.Color(0, 0, 255));
     Serial.println("2");
   }
-  else{
+  else {
     all_down();
   }
 
@@ -65,7 +65,7 @@ void loop() {
 
 }
 
-void tenmetu(uint32_t c, uint8_t wait) {
+void Flashing(uint32_t c, uint8_t wait) {
   for (uint16_t i = 0; i < strip.numPixels() / 2; i++) {
     strip.setPixelColor(i * 2, c);
     strip.show();
@@ -81,19 +81,19 @@ void tenmetu(uint32_t c, uint8_t wait) {
 }
 
 void all_down() {
-  for(uint16_t i=0; i<strip.numPixels(); i++) {
-      strip.setPixelColor(i, (0,0,0));
-      strip.show();
+  for (uint16_t i = 0; i < strip.numPixels(); i++) {
+    strip.setPixelColor(i, (0, 0, 0));
+    strip.show();
   }
 }
 
-void rand_tenmetu(uint32_t c){
+void rand_Flashing(uint32_t c) {
   randomSeed(analogRead(0));
   int ran_num = random(5, 10);
-  for(uint16_t i = 0; i < strip.numPixels() / 2; i += ran_num){
+  for (uint16_t i = 0; i < strip.numPixels() / 2; i += ran_num) {
     randomSeed(analogRead(0));
     ran_num = random(5, 10);
-    strip.setPixelColor(i,c);
+    strip.setPixelColor(i, c);
     strip.show();
   }
   delay(500);
